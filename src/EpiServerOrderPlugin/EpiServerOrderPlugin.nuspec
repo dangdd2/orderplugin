@@ -14,8 +14,9 @@
       <dependency id="EPiServer.CMS.AspNet" version="[11.1.0,12.0)"/>
       <dependency id="EPiServer.CMS.UI.Core" version="[11.1.0,12.0)"/>
     </dependencies>
-    <files>
-      <file src="Modules\_protected\EpiServerOrderPlugin\EpiServerOrderPlugin.zip" target="content\Modules\_protected\EpiServerOrderPlugin\"/>
-    </files>
   </metadata>
+  <files>
+    <file src="Modules\_protected\EpiServerOrderPlugin\EpiServerOrderPlugin.zip" target="content\Modules\_protected\EpiServerOrderPlugin\"/>
+  </files>
+  
 </package>
