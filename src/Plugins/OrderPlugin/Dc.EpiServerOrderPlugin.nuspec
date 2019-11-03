@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Dc.EpiServerOrderPlugin</id>
+    <id>Dc.OrderIntegrationPluginBeta</id>
     <version>$version$</version>
     <title>Epi Server Order Plugin</title>
     <authors>DC</authors>

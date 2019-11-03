@@ -199,7 +199,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Views\EpiServerOrderPlugin\Index.cshtml" />
+    <None Include="Views\OrderPlugin\Index.cshtml" />
     <None Include="Dc.EpiServerOrderPlugin.nuspec">
       <SubType>Designer</SubType>
     </None>
@@ -214,7 +214,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
-    <Folder Include="Modules\_protected\EpiServerOrderPlugin\Views\EpiServerOrderPlugin\" />
+    <Folder Include="Modules\_protected\EpiServerOrderPlugin\Views\OrderPlugin\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
