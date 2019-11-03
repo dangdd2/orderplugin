@@ -192,6 +192,7 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="module.config" />
+    <Content Include="EpiServerOrderPlugin.csproj.nuspec" />
     <None Include="packages.config" />
     <Content Include="Views\OrderPlugin\Index.cshtml" />
     <None Include="Web.Debug.config">
