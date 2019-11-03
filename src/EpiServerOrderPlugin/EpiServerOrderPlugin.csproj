@@ -192,7 +192,9 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="module.config" />
-    <Content Include="EpiServerOrderPlugin.csproj.nuspec" />
+    <Content Include="EpiServerOrderPlugin.nuspec" />
+    <Content Include="Modules\_protected\EpiServerOrderPlugin\Views\web.config" />
+    <Content Include="Modules\_protected\EpiServerOrderPlugin\Web.config" />
     <None Include="packages.config" />
     <Content Include="Views\OrderPlugin\Index.cshtml" />
     <None Include="Web.Debug.config">
@@ -201,6 +203,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="ZipBuildAndPack.bat" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

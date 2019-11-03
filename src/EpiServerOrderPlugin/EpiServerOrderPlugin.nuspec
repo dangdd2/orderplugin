@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>EpiServerOrderPlugin</id>
-    <version>1.0.0</version>
+    <version>$version$</version>
     <authors>DC</authors>
     <owners>DC</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
