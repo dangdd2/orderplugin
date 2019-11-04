@@ -1,5 +1,6 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Logging;
+using RestSharp;
 
 namespace Dc.EpiServerOrderPlugin.Infrastructure
 {
