@@ -49,8 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             });
 
             AreaRegistration.RegisterAllAreas();
-
-            context.Locate.Advanced.GetInstance<OrderEventListener>().AddEvents();
+    
 
 #if DISABLE_PROMOTION_TYPES_FEATURE
             DisablePromotionTypes(context);
@@ -108,7 +107,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         public void Uninitialize(InitializationEngine context)
         {
-            context.Locate.Advanced.GetInstance<OrderEventListener>().RemoveEvents();
+           
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var po = orderEventArgs.OrderGroup as IPurchaseOrder;
             if (po != null)
             {
-                _logger.Information($"Order {po.OrderNumber} -  {po.Name} was saved");
+                _logger.Information($"Order {po.OrderNumber} was saved");
             }
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Dc.OrderIntegrationPlugin-Beta-2</id>
+    <id>Dc.OrderIntegrationPlugin-Beta-8</id>
     <version>$version$</version>
     <title>Epi Server Order Plugin</title>
     <authors>DC</authors>
@@ -10,7 +10,7 @@
     <description>This plugin is enabled the handling order event and integrate with an external system</description>
     <releaseNotes>The 1st release</releaseNotes>
     <copyright>Copyright 2019</copyright>
-    <tags>EPiServerModulePackage Debug</tags>
+    <tags>EPiServer Commerce</tags>
     <dependencies>
       <dependency id="EPiServer.CMS.AspNet" version="[11.1.0,12.0)"/>
       <dependency id="EPiServer.CMS.UI.Core" version="[11.1.0,12.0)"/>
@@ -18,5 +18,7 @@
   </metadata>
   <files>
     <file src="Modules\_protected\EpiServerOrderPlugin\EpiServerOrderPlugin.zip" target="content\Modules\_protected\EpiServerOrderPlugin\"/>
+    <file src="Infrastructure\OrderEventListener.cs" target="Infrastructure\"/>
+    <file src="Infrastructure\OrderInitializationModule.cs" target="Infrastructure\"/>
   </files>
 </package>
