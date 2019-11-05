@@ -27,7 +27,8 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var po = orderEventArgs.OrderGroup as IPurchaseOrder;
             if (po != null)
             {
-                _logger.Information($"Order {po.OrderNumber} was saved");
+                PopulateInfo(po);
+                //_logger.Information($"Order {po.OrderNumber} was saved");
             }
         }
 
@@ -84,6 +85,25 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var discountedValue = lineItem.GetOrderDiscountValue();
             var fullUrl = lineItem.GetFullUrl();
             var extendedPrice = lineItem.GetExtendedPrice(currency);
+
+            string url = "http://demo.api/customer";
+            string resource = "/register";
+            RestClient restClient = new RestClient(url);
+
+            RestRequest restRequest = new RestRequest(resource, Method.POST);
+
+            //Specifies request content type as Json
+            restRequest.RequestFormat = DataFormat.Json;
+
+            //Create a body with specifies parameters as json
+            restRequest.AddBody(new
+            {
+                OrderNumber = orderNumber
+            });
+
+            IRestResponse restResponse = restClient.Execute(restRequest);
+
+
         }
 
         private void OrderEventsOnDeletingOrder(object sender, OrderEventArgs orderEventArgs)
