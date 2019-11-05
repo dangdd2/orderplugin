@@ -32,28 +32,58 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
         }
 
 
-        /*
-             *Create a EpiServer Ecommerce plugin which
-                1. reads the order events
-                2. for each order placed, find order number, order date, shipping date and
-                a. find order details ( article number, sku number, product name, quantity, color, size, photo (url)
-                b. who ordered? customer email or unique identification Id, address
-                c. shipping method, shipping partner
-                d. delivery date
-                e. Purchase price per product
-
-                3. Call a http://external.website.name.here.com/feed/order/<order-id>/ as a POST call with the above data packed as json data. 
-
-             *
-             */
-
         private void PopulateInfo(IPurchaseOrder order)
         {
+            //basic info
             var orderNumber = order.OrderNumber;
             var orderDate = order.Created;
             var customerName = order.Name;
             var currencyCode = order.Currency.CurrencyCode;
+            var currency = new Currency(currencyCode);
 
+            var form = order.Forms.FirstOrDefault();
+
+            var formName = form.Name;
+            var subTotal = form.GetSubTotal(currency);
+            var handlingTotal = form.GetHandlingTotal(currency);
+            var couponCodes = form.CouponCodes;
+
+            var payment = form.Payments.FirstOrDefault();
+
+            //shipment info
+            var shipment = form.Shipments.FirstOrDefault();
+            var warehouseCode = shipment.WarehouseCode;
+            var shipmentTrackingNumber = shipment.ShipmentTrackingNumber;
+            var shippingMethodName = shipment.ShippingMethodName;
+
+            var shipAdress = shipment.ShippingAddress;
+            var city = shipAdress.City;
+            var countryCode = shipAdress.CountryCode;
+            var dayPhoneName = shipAdress.DaytimePhoneNumber;
+            var eveningPhoneName = shipAdress.EveningPhoneNumber;
+            var email = shipAdress.Email;
+            var line1 = shipAdress.Line1;
+            var line2 = shipAdress.Line2;
+            var organization = shipAdress.Organization;
+            var regionCode = shipAdress.RegionCode;
+            var regionName = shipAdress.RegionName;
+
+
+            //lineItems
+            var lineItems = order.GetAllLineItems();
+            var lineItem = lineItems.FirstOrDefault();
+
+            var sku = lineItem.Code;
+            var productName = lineItem.DisplayName;
+            var quantity = lineItem.Quantity;
+            var placedPrice = lineItem.PlacedPrice;
+
+            var thumbnailUrl = lineItem.GetThumbnailUrl();
+            var discountedPrice = lineItem.GetDiscountedPrice(currency);
+            var discountedTotal = lineItem.GetDiscountTotal(currency);
+            var discountedValue = lineItem.GetOrderDiscountValue();
+            var fullUrl = lineItem.GetFullUrl();
+            var extendedPrice = lineItem.GetExtendedPrice(currency);
         }
 
         private void OrderEventsOnDeletingOrder(object sender, OrderEventArgs orderEventArgs)
