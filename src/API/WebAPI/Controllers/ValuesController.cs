@@ -42,20 +42,34 @@ namespace WebAPI.Controllers
 
     public class OrderViewModel
     {
+        
+        public OrderInfo OrderInfo { get; set; }
+
+        public Shipment Shipment { get; set; }
+
+        public List<LineItem> LineItems { get; set; }
+
+    }
+
+    public class OrderInfo
+    {
         public string OrderNumber { get; set; }
 
         public string OrderDate { get; set; }
 
         public string CustomerName { get; set; }
 
-        public string CurrencyCode { get; set; }        
+        public string CurrencyCode { get; set; }
 
         public string SubTotal { get; set; }
 
         public string HandlingTotal { get; set; }
 
         public string WarehouseCode { get; set; }
+    }
 
+    public class Shipment
+    {
         public string ShipmentTrackingNumber { get; set; }
 
         public string ShippingMethodName { get; set; }
@@ -79,7 +93,10 @@ namespace WebAPI.Controllers
         public string RegionCode { get; set; }
 
         public string RegionName { get; set; }
+    }
 
+    public class LineItem
+    {
         //product info
         public string Sku { get; set; }
 
@@ -100,7 +117,6 @@ namespace WebAPI.Controllers
         public string FullUrl { get; set; }
 
         public string ExtendedPrice { get; set; }
-
     }
 }
 
