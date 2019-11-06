@@ -4,8 +4,8 @@
     <id>Dc.OrderIntegrationPlugin-Beta-9</id>
     <version>$version$</version>
     <title>Epi Server Order Plugin</title>
-    <authors>DC</authors>
-    <owners>DC</owners>
+    <authors>Bigatad</authors>
+    <owners>Bigatad</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This plugin is enabled the handling order event and integrate with an external system</description>
     <releaseNotes>The 1st release</releaseNotes>
