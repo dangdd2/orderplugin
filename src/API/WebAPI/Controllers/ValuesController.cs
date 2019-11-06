@@ -44,59 +44,63 @@ namespace WebAPI.Controllers
     {
         public string OrderNumber { get; set; }
 
-        /*
-         *basic info
-            var orderNumber = order.OrderNumber;
-            var orderDate = order.Created;
-            var customerName = order.Name;
-            var currencyCode = order.Currency.CurrencyCode;
-            var currency = new Currency(currencyCode);
+        public string OrderDate { get; set; }
 
-            var form = order.Forms.FirstOrDefault();
+        public string CustomerName { get; set; }
 
-            var formName = form.Name;
-            var subTotal = form.GetSubTotal(currency);
-            var handlingTotal = form.GetHandlingTotal(currency);
-            var couponCodes = form.CouponCodes;
+        public string CurrencyCode { get; set; }        
 
-            var payment = form.Payments.FirstOrDefault();
+        public string SubTotal { get; set; }
 
-            //shipment info
-            var shipment = form.Shipments.FirstOrDefault();
-            var warehouseCode = shipment.WarehouseCode;
-            var shipmentTrackingNumber = shipment.ShipmentTrackingNumber;
-            var shippingMethodName = shipment.ShippingMethodName;
+        public string HandlingTotal { get; set; }
 
-            var shipAdress = shipment.ShippingAddress;
-            var city = shipAdress.City;
-            var countryCode = shipAdress.CountryCode;
-            var dayPhoneName = shipAdress.DaytimePhoneNumber;
-            var eveningPhoneName = shipAdress.EveningPhoneNumber;
-            var email = shipAdress.Email;
-            var line1 = shipAdress.Line1;
-            var line2 = shipAdress.Line2;
-            var organization = shipAdress.Organization;
-            var regionCode = shipAdress.RegionCode;
-            var regionName = shipAdress.RegionName;
+        public string WarehouseCode { get; set; }
 
+        public string ShipmentTrackingNumber { get; set; }
 
-            //lineItems
-            var lineItems = order.GetAllLineItems();
-            var lineItem = lineItems.FirstOrDefault();
+        public string ShippingMethodName { get; set; }
 
-            var sku = lineItem.Code;
-            var productName = lineItem.DisplayName;
-            var quantity = lineItem.Quantity;
-            var placedPrice = lineItem.PlacedPrice;
+        public string ShippingAddress { get; set; }
 
-            var thumbnailUrl = lineItem.GetThumbnailUrl();
-            var discountedPrice = lineItem.GetDiscountedPrice(currency);
-            var discountedTotal = lineItem.GetDiscountTotal(currency);
-            var discountedValue = lineItem.GetOrderDiscountValue();
-            var fullUrl = lineItem.GetFullUrl();
-            var extendedPrice = lineItem.GetExtendedPrice(currency);
-         *
-         */
+        public string City { get; set; }
+
+        public string CountryCode { get; set; }
+
+        public string DaytimePhoneNumber { get; set; }
+
+        public string EveningPhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string Line1 { get; set; }
+
+        public string Line2 { get; set; }
+
+        public string RegionCode { get; set; }
+
+        public string RegionName { get; set; }
+
+        //product info
+        public string Sku { get; set; }
+
+        public string ProductName { get; set; }
+
+        public string Quantity { get; set; }
+
+        public string PlacedPrice { get; set; }
+
+        public string ThumbnailUrl { get; set; }
+
+        public string DiscountedPrice { get; set; }
+
+        public string DiscountedTotal { get; set; }
+
+        public string DiscountedValue { get; set; }
+
+        public string FullUrl { get; set; }
+
+        public string ExtendedPrice { get; set; }
+
     }
 }
 
