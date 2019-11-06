@@ -27,13 +27,13 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var po = orderEventArgs.OrderGroup as IPurchaseOrder;
             if (po != null)
             {
-                PopulateInfo(po);
+                CallOrderRestAPI(po);
                 //_logger.Information($"Order {po.OrderNumber} was saved");
             }
         }
 
 
-        private void PopulateInfo(IPurchaseOrder order)
+        private void CallOrderRestAPI(IPurchaseOrder order)
         {
             //basic info
             var orderNumber = order.OrderNumber;
@@ -86,10 +86,11 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var fullUrl = lineItem.GetFullUrl();
             var extendedPrice = lineItem.GetExtendedPrice(currency);
 
-            string url = "http://demo.api/customer";
-            string resource = "/register";
-            RestClient restClient = new RestClient(url);
+            string url = "http://localhost:61409/api";
+            string resource = "/values";
 
+
+            RestClient restClient = new RestClient(url);
             RestRequest restRequest = new RestRequest(resource, Method.POST);
 
             //Specifies request content type as Json
