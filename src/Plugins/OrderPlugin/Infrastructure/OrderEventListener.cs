@@ -1,6 +1,7 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Logging;
 using RestSharp;
+using System.Linq;
 
 namespace Dc.EpiServerOrderPlugin.Infrastructure
 {
@@ -40,7 +41,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var orderDate = order.Created;
             var customerName = order.Name;
             var currencyCode = order.Currency.CurrencyCode;
-            var currency = new Currency(currencyCode);
+            var currency = new Mediachase.Commerce.Currency(currencyCode);
 
             var form = order.Forms.FirstOrDefault();
 
@@ -87,7 +88,8 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var extendedPrice = lineItem.GetExtendedPrice(currency);
 
             string url = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
-            string resource = "/values";
+            string resource = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
+            string apiKey = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.ApiKey");
             
 
             RestClient restClient = new RestClient(url);
@@ -99,7 +101,11 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             //Create a body with specifies parameters as json
             restRequest.AddBody(new
             {
-                OrderNumber = orderNumber
+                OrderInfo = new
+                {
+                    OrderNumber = orderNumber,
+                    CurrencyCode = currencyCode
+                }
             });
 
             IRestResponse restResponse = restClient.Execute(restRequest);

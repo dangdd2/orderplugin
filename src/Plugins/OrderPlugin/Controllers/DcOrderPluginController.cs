@@ -1,9 +1,5 @@
-﻿using System;
-using System.Configuration;
-using System.Text.RegularExpressions;
-using System.Web.Configuration;
+﻿using System.Configuration;
 using System.Web.Mvc;
-using EPiServer.Logging;
 using EPiServer.PlugIn;
 
 namespace Dc.EpiServerOrderPlugin.Controllers
@@ -11,6 +7,7 @@ namespace Dc.EpiServerOrderPlugin.Controllers
     public class OrderIntegrationViewModel
     {
         public string Url { get; set; }
+        public string Resource { get; set; }
         public string ApiKey { get; set; }
     }
 
@@ -21,16 +18,18 @@ namespace Dc.EpiServerOrderPlugin.Controllers
     {
         // keys for the appSettings
         private const string urlKey = "EPi.OrderIntegration.Url";
+        private const string resourceKey = "EPi.OrderIntegration.Resource";
         private const string apiKeyKey = "EPi.OrderIntegration.ApiKey";
 
-        public ActionResult Index(string save, string url, string apiKey)
+        public ActionResult Index(string save, string url,string resource, string apiKey)
         {
 
             if (!string.IsNullOrWhiteSpace(save))
             {
-                Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
+                Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/");
 
                 AddOrUpdateSetting(config.AppSettings.Settings, urlKey, url);
+                AddOrUpdateSetting(config.AppSettings.Settings, resourceKey, resource);
                 AddOrUpdateSetting(config.AppSettings.Settings, apiKeyKey, apiKey);
 
                 config.Save();
@@ -38,8 +37,9 @@ namespace Dc.EpiServerOrderPlugin.Controllers
 
             var model = new OrderIntegrationViewModel
             {
-                Url = WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
-                ApiKey = WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
+                Url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
+                Resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(resourceKey) ?? "<not specific>",
+                ApiKey = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
             };
 
             return View(GetViewLocation("Index"), model);
