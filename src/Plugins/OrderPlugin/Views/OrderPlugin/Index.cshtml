@@ -19,8 +19,7 @@
 </head>
 <body id="body">
     @Html.Raw(Html.ShellInitializationScript())
-    @using (Html.BeginForm("Index", "DcOrderPlugin", FormMethod.Post))
-    {
+    <form action="/DcOrderPlugin/Index" method="post">
         <div class="epi-contentContainer epi-padding">
             <div class="epi-contentArea">
                 <h1 class="EP-prefix">
@@ -31,18 +30,18 @@
             <div class="epi-contentArea epi-formArea">
                 <table class="table table-bordered">
                     <tr><th>Feature</th><th>Value</th></tr>
-                    <tr><td>URL</td><td>@Html.TextBoxFor(m => m.Url, Model.Url)</td></tr>
-                    <tr><td>Resource</td><td>@Html.TextBoxFor(m => m.Resource, Model.Resource)</td></tr>
-                    <tr><td>API Key</td><td>@Html.TextBoxFor(m => m.ApiKey, Model.ApiKey)</td></tr>
+                    <tr><td>URL</td><td><input name="Url" id="url" value="@Model.Url"/></td></tr>
+                    <tr><td>Resource</td><td><input name="Resource" id="resourcer" value="@Model.Resource" /></td></tr>
+                    <tr><td>API Key</td><td><input name="ApiKey" id="apikey" value="@Model.ApiKey" /></td></tr>
                 </table>
                 Changing app settings will require the website to restart.
                 <div class="epi-buttonDefault">
                     <span class="epi-cmsButton">
-                        <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Refresh" type="submit" name="save" id="save" value="Save" onmouseover="EPi.ToolButton.MouseDownHandler(this)" onmouseout="EPi.ToolButton.ResetMouseDownHandler(this)" />
+                        <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Refresh" type="submit" name="save" id="save" value="Save"/>
                     </span>
                 </div>
             </div>
         </div>
-    }
+    </form>
 </body>
 </html>

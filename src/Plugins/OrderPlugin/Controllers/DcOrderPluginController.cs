@@ -33,6 +33,15 @@ namespace Dc.EpiServerOrderPlugin.Controllers
                 AddOrUpdateSetting(config.AppSettings.Settings, apiKeyKey, apiKey);
 
                 config.Save();
+
+                var newModel = new OrderIntegrationViewModel
+                {
+                    Url = url ?? "<not specific>",
+                    Resource = resource ?? "<not specific>",
+                    ApiKey = apiKey ?? "<not specific>"
+                };
+
+                return View(GetViewLocation("Index"), newModel);
             }
 
             var model = new OrderIntegrationViewModel
