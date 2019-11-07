@@ -1,0 +1,52 @@
+{
+   "OrderInfo":{
+      "OrderNumber":"PO1234",
+      "OrderDate":"11/7/2019 10:23:27",
+      "CustomerName":"admin@example.com",
+      "CurrencyCode":"USD",
+      "SubTotal":"250000",
+      "HandlingTotal":"300000",
+      "WarehouseCode":"stockholmstore"
+   },
+   "Shipment":{
+      "ShipmentTrackingNumber":"",
+      "ShippingMethodName":"Express-USD",
+      "ShippingAddress":"",
+      "WarehouseCode":null,
+      "City":"Hanoi",
+      "CountryCode":"VNM",
+      "DaytimePhoneNumber":"09861121212",
+      "EveningPhoneNumber":"",
+      "Email":"dangdd2@yahoo.com.vn",
+      "Line1":"165 Thai Ha",
+      "Line2":"",
+      "RegionCode":"10001",
+      "RegionName":"Viet Nam"
+   },
+   "LineItems":[
+      {
+         "Sku":"SKU-36127195",
+         "ProductName":"Faded Glory Mens Canvas Twin Gore Slip-On Shoe",
+         "Quantity":"1",
+         "PlacedPrice":"10",
+         "ThumbnailUrl":"",
+         "DiscountedPrice":"9.9",
+         "DiscountedTotal":"0.1",
+         "DiscountedValue":null,
+         "FullUrl":"",
+         "ExtendedPrice":"9.9"
+      },
+      {
+         "Sku":"SKU-46127195",
+         "ProductName":"Faded Glory Mens Canvas Twin Gore Slip-On Shoe",
+         "Quantity":"1",
+         "PlacedPrice":"10",
+         "ThumbnailUrl":"",
+         "DiscountedPrice":"9.9",
+         "DiscountedTotal":"0.1",
+         "DiscountedValue":null,
+         "FullUrl":"",
+         "ExtendedPrice":"9.9"
+      }
+   ]
+}
