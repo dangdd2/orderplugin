@@ -2,6 +2,9 @@
 using EPiServer.Logging;
 using RestSharp;
 using System.Linq;
+using EPiServer.Commerce.Order.Internal;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
+using System.Web.Configuration;
 
 namespace Dc.EpiServerOrderPlugin.Infrastructure
 {
@@ -87,10 +90,11 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var fullUrl = lineItem.GetFullUrl();
             var extendedPrice = lineItem.GetExtendedPrice(currency);
 
-            string url = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
-            string resource = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
-            string apiKey = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.ApiKey");
-            
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
+            string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
+            string apiKey = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.ApiKey");
+
+            if (string.IsNullOrEmpty(url)) return;
 
             RestClient restClient = new RestClient(url);
             RestRequest restRequest = new RestRequest(resource, Method.POST);
