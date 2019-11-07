@@ -1,36 +1,69 @@
 ﻿using System;
+using System.Configuration;
 using System.Text.RegularExpressions;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using EPiServer.Logging;
 using EPiServer.PlugIn;
 
 namespace Dc.EpiServerOrderPlugin.Controllers
 {
+    public class OrderIntegrationViewModel
+    {
+        public string Url { get; set; }
+        public string ApiKey { get; set; }
+    }
+
+
     [Authorize(Roles = "Administrators")]
     [GuiPlugIn(Area = PlugInArea.AdminMenu, UrlFromModuleFolder = "OrderPlugin", DisplayName = "Order Integration")]
     public class DcOrderPluginController : Controller
     {
-        private static readonly ILogger logger = LogManager.GetLogger(typeof(DcOrderPluginController));
+        // keys for the appSettings
+        private const string urlKey = "EPi.OrderIntegration.Url";
+        private const string apiKeyKey = "EPi.OrderIntegration.ApiKey";
 
-        private static readonly Regex cmsRegex = new Regex("/cms/$", RegexOptions.IgnoreCase);
-
-        // NOTE: we are using module feature to prefix our controllers (see module.config in this project), in module config the controller prefix Swap will be removed in the routing
-        // GuiPlugIn: UrlFromModuleFolder = "DebugViewLinks" => our controller without the "Swap" prefix. Url in admin will be: /EPiDebugViewLinks/DebugViewLinks (module name + controller name without the prefix)
-
-        public ActionResult Index()
+        public ActionResult Index(string save, string url, string apiKey)
         {
-            try
-            {
-                return View(GetViewLocation("Index"));
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Failed to load plugin page.", ex);
 
-                throw;
+            if (!string.IsNullOrWhiteSpace(save))
+            {
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("/");
+
+                AddOrUpdateSetting(config.AppSettings.Settings, urlKey, url);
+                AddOrUpdateSetting(config.AppSettings.Settings, apiKeyKey, apiKey);
+
+                config.Save();
+            }
+
+            var model = new OrderIntegrationViewModel
+            {
+                Url = WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
+                ApiKey = WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
+            };
+
+            return View(GetViewLocation("Index"), model);
+        }
+
+        private void AddOrUpdateSetting(KeyValueConfigurationCollection settings, string key, string value)
+        {
+            var existing = settings[key];
+            if (existing == null)
+            {
+                settings.Add(key, value);
+            }
+            else
+            {
+                existing.Value = value;
             }
         }
 
+
+        /// <summary>
+        /// return View(GetViewLocation("Index"));
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
         private static string GetViewLocation(string viewName)
         {
             // Episerver has registered a razor view engine for our module with custom view locations like these:

@@ -86,9 +86,9 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var fullUrl = lineItem.GetFullUrl();
             var extendedPrice = lineItem.GetExtendedPrice(currency);
 
-            string url = "http://localhost:61409/api";
+            string url = WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
             string resource = "/values";
-
+            
 
             RestClient restClient = new RestClient(url);
             RestRequest restRequest = new RestRequest(resource, Method.POST);

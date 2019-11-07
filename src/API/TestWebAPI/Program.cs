@@ -35,9 +35,10 @@ namespace TestWebAPI
             //Specifies request content type as Json
             restRequest.RequestFormat = DataFormat.Json;
 
+            var model = PopulateOrderViewModel();
             //Create a body with specifies parameters as json
 #pragma warning disable 618
-            restRequest.AddBody(PopulateOrderViewModel());
+            restRequest.AddBody(model);
 
            IRestResponse restResponse = restClient.Execute(restRequest);
            Console.WriteLine(restResponse.Content);
