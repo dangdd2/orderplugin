@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -39,8 +37,15 @@ namespace TestWebAPI
 
             //Create a body with specifies parameters as json
 #pragma warning disable 618
-            restRequest.AddBody(new OrderViewModel
-#pragma warning restore 618
+            restRequest.AddBody(PopulateOrderViewModel());
+
+           IRestResponse restResponse = restClient.Execute(restRequest);
+           Console.WriteLine(restResponse.Content);
+        }
+
+        private static OrderViewModel PopulateOrderViewModel()
+        {
+            return new OrderViewModel
             {
                 OrderInfo = new OrderInfo
                 {
@@ -94,10 +99,7 @@ namespace TestWebAPI
                         ThumbnailUrl = ""
                     }
                 }
-            });
-
-           IRestResponse restResponse = restClient.Execute(restRequest);
-           Console.WriteLine(restResponse.Content);
+            };
         }
 
 
@@ -122,8 +124,3 @@ namespace TestWebAPI
         }
     }
 }
-/*
- *
- *{"OrderInfo":{"OrderNumber":"PO1234","OrderDate":"11/7/2019 10:23:27","CustomerName":"admin@example.com","CurrencyCode":"USD","SubTotal":"250000","HandlingTotal":"300000","WarehouseCode":"stockholmstore"},"Shipment":{"ShipmentTrackingNumber":"","ShippingMethodName":"Express-USD","ShippingAddress":"","WarehouseCode":null,"City":"Hanoi","CountryCode":"VNM","DaytimePhoneNumber":"09861121212","EveningPhoneNumber":"","Email":"dangdd2@yahoo.com.vn","Line1":"165 Thai Ha","Line2":"","RegionCode":"10001","RegionName":"Viet Nam"},"LineItems":[{"Sku":"SKU-36127195","ProductName":"Faded Glory Mens Canvas Twin Gore Slip-On Shoe","Quantity":"1","PlacedPrice":"10","ThumbnailUrl":"","DiscountedPrice":"9.9","DiscountedTotal":"0.1","DiscountedValue":null,"FullUrl":"","ExtendedPrice":"9.9"},{"Sku":"SKU-46127195","ProductName":"Faded Glory Mens Canvas Twin Gore Slip-On Shoe","Quantity":"1","PlacedPrice":"10","ThumbnailUrl":"","DiscountedPrice":"9.9","DiscountedTotal":"0.1","DiscountedValue":null,"FullUrl":"","ExtendedPrice":"9.9"}]}
- *
- */
