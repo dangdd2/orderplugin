@@ -103,7 +103,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             restRequest.RequestFormat = DataFormat.Json;
 
             //Create a body with specifies parameters as json
-            restRequest.AddBody(new
+            restRequest.AddJsonBody(new
             {
                 OrderInfo = new
                 {
