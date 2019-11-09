@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
 using EPiServer.PlugIn;
+using System.Web.Configuration;
 
 namespace Dc.EpiServerOrderPlugin.Controllers
 {
@@ -46,9 +47,9 @@ namespace Dc.EpiServerOrderPlugin.Controllers
 
             var model = new OrderIntegrationViewModel
             {
-                Url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
-                Resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(resourceKey) ?? "<not specific>",
-                ApiKey = System.Web.Configuration.WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
+                Url = WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
+                Resource = WebConfigurationManager.AppSettings.Get(resourceKey) ?? "<not specific>",
+                ApiKey = WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
             };
 
             return View(GetViewLocation("Index"), model);

@@ -1,20 +1,24 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Dc.EpiServerOrderPlugin.Extensions;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
+using EPiServer.Logging;
 using RestSharp;
 
 namespace Dc.EpiServerOrderPlugin.Handlers
 {
     public class OrderEventHandler : IOrderEventHandler
     {
+
+        private static readonly ILogger Logger = LogManager.GetLogger();
         /// <summary>
         /// Call OrderRest API
         /// </summary>
         /// <param name="order"></param>
         public void PostEvent(IPurchaseOrder order)
         {
+            Logger.Information($"Order has been placed: {order.OrderNumber}");
+
             //basic info
             var orderNumber = order.OrderNumber;
             var orderDate = order.Created;
