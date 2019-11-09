@@ -214,6 +214,9 @@
     <Compile Include="Controllers\DcOrderPluginController.cs" />
     <Content Include="Infrastructure\OrderEventListener.cs" />
     <Content Include="Infrastructure\OrderInitializationModule.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\LineItemExtensions.cs" />
+    <Compile Include="Handlers\OrderEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
