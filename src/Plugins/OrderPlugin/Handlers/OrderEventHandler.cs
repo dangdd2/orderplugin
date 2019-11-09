@@ -69,6 +69,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
             string apiKey = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.ApiKey");
 
+            
             if (string.IsNullOrEmpty(url)) return;
 
             RestClient restClient = new RestClient(url);

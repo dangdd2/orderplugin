@@ -1,6 +1,5 @@
 ﻿using Dc.EpiServerOrderPlugin.Handlers;
 using EPiServer.Commerce.Order;
-using EPiServer.Logging;
 
 namespace Dc.EpiServerOrderPlugin.Infrastructure
 {
@@ -8,10 +7,9 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderEvents _orderEvents;
-        private ILogger _logger = LogManager.GetLogger(typeof(OrderEventListener));
 
         /// <summary>
-        /// 
+        /// Order Event Listener
         /// </summary>
         /// <param name="orderRepository"></param>
         /// <param name="orderEvents"></param>
@@ -22,7 +20,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
         }
 
         /// <summary>
-        /// 
+        /// AddEvents
         /// </summary>
         public void AddEvents()
         {
@@ -31,7 +29,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
         }
 
         /// <summary>
-        /// 
+        /// OrderEventsOnSavedOrder
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="orderEventArgs"></param>
@@ -45,7 +43,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
         }
         
         /// <summary>
-        /// 
+        /// OrderEventsOnDeletingOrder
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="orderEventArgs"></param>
@@ -54,12 +52,12 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var cart = _orderRepository.Load<ICart>(orderEventArgs.OrderLink.OrderGroupId);
             if (cart != null)
             {
-                _logger.Information($"Cart '{cart.Name}' for user '{cart.CustomerId}' is being deleted.");
+                
             }
         }
 
         /// <summary>
-        /// 
+        /// Remove Events
         /// </summary>
         public void RemoveEvents()
         {
