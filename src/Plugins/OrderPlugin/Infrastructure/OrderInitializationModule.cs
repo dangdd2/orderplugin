@@ -1,4 +1,5 @@
-﻿using EPiServer.Framework;
+﻿using Dc.EpiServerOrderPlugin.Handlers;
+using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 
@@ -20,7 +21,9 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
 
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
+            var services = context.Services;
 
+            services.AddSingleton<IOrderEventHandler, OrderEventHandler>();
         }
     }
 }

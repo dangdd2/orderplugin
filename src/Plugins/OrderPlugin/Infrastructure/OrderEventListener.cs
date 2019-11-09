@@ -8,15 +8,19 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderEvents _orderEvents;
 
-        /// <summary>
-        /// Order Event Listener
-        /// </summary>
-        /// <param name="orderRepository"></param>
-        /// <param name="orderEvents"></param>
-        public OrderEventListener(IOrderRepository orderRepository, IOrderEvents orderEvents)
+        private readonly IOrderEventHandler _orderEventHandler;
+
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="orderRepository"></param>
+       /// <param name="orderEvents"></param>
+       /// <param name="orderEventHandler"></param>
+        public OrderEventListener(IOrderRepository orderRepository, IOrderEvents orderEvents, IOrderEventHandler orderEventHandler)
         {
             _orderRepository = orderRepository;
             _orderEvents = orderEvents;
+            _orderEventHandler = orderEventHandler;
         }
 
         /// <summary>
@@ -38,7 +42,7 @@ namespace Dc.EpiServerOrderPlugin.Infrastructure
             var po = orderEventArgs.OrderGroup as IPurchaseOrder;
             if (po != null)
             {
-                base.CallOrderRestAPI(po);
+                _orderEventHandler.PostEvent(po);
             }
         }
         

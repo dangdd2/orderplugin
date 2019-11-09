@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Dc.EpiServerOrderPlugin.Extensions;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
@@ -6,13 +7,13 @@ using RestSharp;
 
 namespace Dc.EpiServerOrderPlugin.Handlers
 {
-    public class OrderEventHandler
+    public class OrderEventHandler : IOrderEventHandler
     {
         /// <summary>
         /// Call OrderRest API
         /// </summary>
         /// <param name="order"></param>
-        protected void CallOrderRestAPI(IPurchaseOrder order)
+        public void PostEvent(IPurchaseOrder order)
         {
             //basic info
             var orderNumber = order.OrderNumber;
