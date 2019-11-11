@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
             return "value";
         }
 
-        public IHttpActionResult Post(OrderViewModel order)
+        public IHttpActionResult Post(dynamic order)
         {
             return Ok(order);
         }

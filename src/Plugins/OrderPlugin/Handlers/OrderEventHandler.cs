@@ -25,15 +25,13 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             var customerName = order.Name;
             var currencyCode = order.Currency.CurrencyCode;
             var currency = new Mediachase.Commerce.Currency(currencyCode);
-
             var form = order.Forms.FirstOrDefault();
-
-            var formName = form.Name;
             var subTotal = form.GetSubTotal(currency);
             var handlingTotal = form.GetHandlingTotal(currency);
-            var couponCodes = form.CouponCodes;
 
-            var payment = form.Payments.FirstOrDefault();
+            //var couponCodes = form.CouponCodes;
+            //var formName = form.Name;
+            //var payment = form.Payments.FirstOrDefault();
 
             //shipment info
             var shipment = form.Shipments.FirstOrDefault();
@@ -44,7 +42,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             var shipAdress = shipment.ShippingAddress;
             var city = shipAdress.City;
             var countryCode = shipAdress.CountryCode;
-            var dayPhoneName = shipAdress.DaytimePhoneNumber;
+            var daytimePhoneNumber = shipAdress.DaytimePhoneNumber;
             var eveningPhoneName = shipAdress.EveningPhoneNumber;
             var email = shipAdress.Email;
             var line1 = shipAdress.Line1;
@@ -55,20 +53,21 @@ namespace Dc.EpiServerOrderPlugin.Handlers
 
 
             //lineItems
-            var lineItems = order.GetAllLineItems();
-            var lineItem = lineItems.FirstOrDefault();
+            var lineItems = order.GetAllLineItems().Select(lineItem => new
+            {
+                Code = lineItem.Code,
+                DisplayName = lineItem.DisplayName,
+                Quantity = lineItem.Quantity,
+                PlacedPrice = lineItem.PlacedPrice,
+                ThumbnailUrl = lineItem.GetThumbnailUrl(),
+                DiscountedPrice = lineItem.GetDiscountedPrice(currency).ToString(),
+                DiscountTotal = lineItem.GetDiscountTotal(currency).ToString(),
+                OrderDiscountValue = lineItem.GetOrderDiscountValue(),
+                FullUrl = lineItem.GetFullUrl(),
+                ExtendedPrice = lineItem.GetExtendedPrice(currency).ToString()
 
-            var sku = lineItem.Code;
-            var productName = lineItem.DisplayName;
-            var quantity = lineItem.Quantity;
-            var placedPrice = lineItem.PlacedPrice;
-
-            var thumbnailUrl = lineItem.GetThumbnailUrl();
-            var discountedPrice = lineItem.GetDiscountedPrice(currency);
-            var discountedTotal = lineItem.GetDiscountTotal(currency);
-            var discountedValue = lineItem.GetOrderDiscountValue();
-            var fullUrl = lineItem.GetFullUrl();
-            var extendedPrice = lineItem.GetExtendedPrice(currency);
+            }).ToList();
+            
 
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
             string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
@@ -89,8 +88,28 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 OrderInfo = new
                 {
                     OrderNumber = orderNumber,
-                    CurrencyCode = currencyCode
-                }
+                    CurrencyCode = currencyCode,
+                    CustomerName = customerName,
+                    WarehouseCode = warehouseCode,
+                    HandlingTotal = handlingTotal.ToString(),
+                    OrderDate = orderDate,
+                    SubTotal = subTotal.ToString()
+                },
+                Shipment = new
+                {
+                    City = city,
+                    CountryCode = currencyCode,
+                    EveningPhoneNumber = eveningPhoneName,
+                    DaytimePhoneNumber = daytimePhoneNumber,
+                    RegionCode = regionCode,
+                    RegionName = regionName,
+                    Email = email,
+                    Line1 = line1,
+                    Line2 = line2,
+                    ShipmentTrackingNumber = shipmentTrackingNumber,
+                    ShippingMethodName = shippingMethodName
+                },
+                LineItems = lineItems
             });
 
             IRestResponse restResponse = restClient.Execute(restRequest);
