@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dc.EpiServerOrderPlugin.Extensions;
 using EPiServer.Commerce.Order;
 using EPiServer.Commerce.Order.Internal;
@@ -50,8 +51,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             var organization = shipAdress.Organization;
             var regionCode = shipAdress.RegionCode;
             var regionName = shipAdress.RegionName;
-
-
+            
             //lineItems
             var lineItems = order.GetAllLineItems().Select(lineItem => new
             {
@@ -65,7 +65,6 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 OrderDiscountValue = lineItem.GetOrderDiscountValue(),
                 FullUrl = lineItem.GetFullUrl(),
                 ExtendedPrice = lineItem.GetExtendedPrice(currency).ToString()
-
             }).ToList();
             
 
@@ -112,7 +111,21 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 LineItems = lineItems
             });
 
-            IRestResponse restResponse = restClient.Execute(restRequest);
+            IRestResponse restResponse = null;
+
+            try
+            {
+                restResponse = restClient.Execute(restRequest);
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(" REST API Error Message : " + ex.Message);
+                if (ex.InnerException != null) Logger.Debug(" REST API Inner Exception : " + ex.InnerException.Message);
+            }
+            finally
+            {
+                if (restResponse != null) Logger.Debug(" REST API response content : " + restResponse.Content);
+            }
         }
 
     }
