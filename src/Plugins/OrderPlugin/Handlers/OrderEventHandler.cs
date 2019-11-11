@@ -130,3 +130,54 @@ namespace Dc.EpiServerOrderPlugin.Handlers
 
     }
 }
+
+/*
+ *
+ * {
+    "ext_order_id": "OGrandpa_2100002",
+    "currency_code": "SEK",
+    "order_date": "2019-11-03 23:00:00",
+    "ship_date": "2019-11-03 23:00:00",
+    "billing_customer_obj": {
+      "ext_customer_id": "137435",
+      "name": "John Palm Wennerberg",
+      "address": "F\u00e5gelstav\u00e4gen 23 ",
+      "city": "Stockholm",
+      "country_code": "SE",
+      "email": "john@wilhlm.com",
+      "zipcode": "12433"
+    },
+    "shipping_customer_obj": {
+      "ext_customer_id": "137435",
+      "name": "John Palm Wennerberg",
+      "address": "F\u00e5gelstav\u00e4gen 23 ",
+      "city": "Stockholm",
+      "country_code": "SE",
+      "email": "john@wilhlm.com",
+      "zipcode": "12433"
+    },
+    "details_obj_list": [
+      {
+        "sku_number": "100382",
+        "original_price": 200.0,
+        "selling_price": 200.0,
+        "product_id": "109335",
+        "product_name": "Cotton Rib Socks 2-pack",
+        "model": "Grandpa Soft Goods",
+        "color": "Black",
+        "size": "40-45",
+        "quantity": 1,
+        "category_1": "Accessoarer",
+        "category_2": "Strumpor",
+        "category_3": "Grandpa Soft Goods",
+        "content_url": "http://www.grandpastore.se/bilder/artiklar/109335_DarkNavy.jpg",
+        "description": "H\u00f6gkvalikativa strumpor fr\u00e5n Grandpa Soft Goods. 2-packEkologisk ribbstickad bomullTillverkade i Europa",
+        "extra": "Cotton Rib Socks 2-pack Dark Navy, 40-45 Strumpor/Strumpbyxor Accessoarer &gt; Strumpor/Strumpbyxor",
+        "barcode_number": "7340191300286",
+        "product_page_url": "http://www.grandpastore.se/sv/cotton-rib-socks-2-pack-dark-navy"
+      }
+    ],
+    "email": "john@wilhlm.com"
+  },
+
+ */
