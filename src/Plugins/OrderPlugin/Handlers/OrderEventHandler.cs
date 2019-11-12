@@ -21,6 +21,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             Logger.Information($"Order has been placed: {order.OrderNumber}");
 
             //basic info
+            var customerId = order.CustomerId;
             var orderNumber = order.OrderNumber;
             var orderDate = order.Created;
             var customerName = order.Name;
@@ -122,7 +123,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 email = email,
                 billing_customer_obj = new
                 {
-                    ext_customer_id = "",
+                    ext_customer_id = customerId,
                     name = billingCustomerName,
                     address = billingLine1,
                     city = billingCity,
@@ -132,7 +133,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 },
                 shipping_customer_obj = new
                 {
-                    ext_customer_id = "",
+                    ext_customer_id = customerId,
                     name = customerName,
                     address = line1,
                     city = city,
