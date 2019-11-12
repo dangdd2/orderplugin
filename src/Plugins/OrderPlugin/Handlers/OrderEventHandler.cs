@@ -26,13 +26,37 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             var customerName = order.Name;
             var currencyCode = order.Currency.CurrencyCode;
             var currency = new Mediachase.Commerce.Currency(currencyCode);
-            var form = order.Forms.FirstOrDefault();
-            var subTotal = form.GetSubTotal(currency);
-            var handlingTotal = form.GetHandlingTotal(currency);
 
+
+            var form = order.Forms.FirstOrDefault();
+            //var subTotal = form.GetSubTotal(currency);
+            //var handlingTotal = form.GetHandlingTotal(currency);
             //var couponCodes = form.CouponCodes;
             //var formName = form.Name;
-            //var payment = form.Payments.FirstOrDefault();
+
+            var payment = form.Payments.FirstOrDefault();
+            string billingCustomerName = "",
+                    billingLine1 = "",
+                    billingLine2 = "",
+                    billingCity = "",
+                    billingCountryCode = "",
+                    billingEmail = "",
+                    billingRegionCode = "";
+
+            if (payment != null)
+            {
+                billingCustomerName = payment.CustomerName;
+                var billingAddress = payment.BillingAddress;
+                if (billingAddress != null)
+                {
+                    billingCity = billingAddress.City;
+                    billingCountryCode = billingAddress.CountryCode;
+                    billingEmail = billingAddress.Email;
+                    billingLine1 = billingAddress.Line1;
+                    billingLine2 = billingAddress.Line2;
+                    billingRegionCode = billingAddress.RegionCode;
+                }
+            }
 
             //shipment info
             var shipment = form.Shipments.FirstOrDefault();
@@ -51,22 +75,29 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             var organization = shipAdress.Organization;
             var regionCode = shipAdress.RegionCode;
             var regionName = shipAdress.RegionName;
-            
+
             //lineItems
-            var lineItems = order.GetAllLineItems().Select(lineItem => new
+            var allListItems = order.GetAllLineItems();
+            var lineItems = allListItems.Select(lineItem => new
             {
-                Code = lineItem.Code,
-                DisplayName = lineItem.DisplayName,
-                Quantity = lineItem.Quantity,
-                PlacedPrice = lineItem.PlacedPrice,
-                ThumbnailUrl = lineItem.GetThumbnailUrl(),
-                DiscountedPrice = lineItem.GetDiscountedPrice(currency).ToString(),
-                DiscountTotal = lineItem.GetDiscountTotal(currency).ToString(),
-                OrderDiscountValue = lineItem.GetOrderDiscountValue(),
-                FullUrl = lineItem.GetFullUrl(),
-                ExtendedPrice = lineItem.GetExtendedPrice(currency).ToString()
+                sku_number = lineItem.Code,
+                original_price = lineItem.PlacedPrice,
+                selling_price = lineItem.GetExtendedPrice(currency).ToString(),
+                product_id = lineItem.LineItemId,
+                product_name = lineItem.DisplayName,
+                model = "",
+                color = "",
+                size = "",
+                quantity = lineItem.Quantity,
+                category_1 = "",
+                category_2 = "",
+                category_3 = "",
+                content_url = lineItem.GetFullUrl(),
+                description = "",
+                extra = "",
+                barcode_number = "",
+                product_page_url = "",
             }).ToList();
-            
 
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
             string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
@@ -84,31 +115,33 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             //Create a body with specifies parameters as json
             restRequest.AddJsonBody(new
             {
-                OrderInfo = new
+                ext_order_id = orderNumber,
+                currency_code = currencyCode,
+                order_date = orderDate,
+                ship_date = "",
+                email = email,
+                billing_customer_obj = new
                 {
-                    OrderNumber = orderNumber,
-                    CurrencyCode = currencyCode,
-                    CustomerName = customerName,
-                    WarehouseCode = warehouseCode,
-                    HandlingTotal = handlingTotal.ToString(),
-                    OrderDate = orderDate,
-                    SubTotal = subTotal.ToString()
+                    ext_customer_id = "",
+                    name = billingCustomerName,
+                    address = billingLine1,
+                    city = billingCity,
+                    country_code = billingCountryCode,
+                    email = billingEmail,
+                    zipcode = billingRegionCode
                 },
-                Shipment = new
+                shipping_customer_obj = new
                 {
-                    City = city,
-                    CountryCode = currencyCode,
-                    EveningPhoneNumber = eveningPhoneName,
-                    DaytimePhoneNumber = daytimePhoneNumber,
-                    RegionCode = regionCode,
-                    RegionName = regionName,
-                    Email = email,
-                    Line1 = line1,
-                    Line2 = line2,
-                    ShipmentTrackingNumber = shipmentTrackingNumber,
-                    ShippingMethodName = shippingMethodName
+                    ext_customer_id = "",
+                    name = customerName,
+                    address = line1,
+                    city = city,
+                    country_code = countryCode,
+                    email = email,
+                    zipcode = regionCode
                 },
-                LineItems = lineItems
+
+                details_obj_list = lineItems
             });
 
             IRestResponse restResponse = null;
