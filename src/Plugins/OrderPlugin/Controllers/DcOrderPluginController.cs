@@ -10,6 +10,7 @@ namespace Dc.EpiServerOrderPlugin.Controllers
         public string Url { get; set; }
         public string Resource { get; set; }
         public string ApiKey { get; set; }
+        public bool? IsActive { get; set; }
     }
 
 
@@ -21,8 +22,9 @@ namespace Dc.EpiServerOrderPlugin.Controllers
         private const string urlKey = "EPi.OrderIntegration.Url";
         private const string resourceKey = "EPi.OrderIntegration.Resource";
         private const string apiKeyKey = "EPi.OrderIntegration.ApiKey";
+        private const string isActiveKey = "EPi.OrderIntegration.IsActive";
 
-        public ActionResult Index(string save, string url,string resource, string apiKey)
+        public ActionResult Index(string save, string url,string resource, string apiKey, bool? isActive)
         {
 
             if (!string.IsNullOrWhiteSpace(save))
@@ -32,6 +34,7 @@ namespace Dc.EpiServerOrderPlugin.Controllers
                 AddOrUpdateSetting(config.AppSettings.Settings, urlKey, url);
                 AddOrUpdateSetting(config.AppSettings.Settings, resourceKey, resource);
                 AddOrUpdateSetting(config.AppSettings.Settings, apiKeyKey, apiKey);
+                AddOrUpdateSetting(config.AppSettings.Settings, isActiveKey, isActive.ToString());
 
                 config.Save();
 
@@ -39,17 +42,20 @@ namespace Dc.EpiServerOrderPlugin.Controllers
                 {
                     Url = url ?? "<not specific>",
                     Resource = resource ?? "<not specific>",
-                    ApiKey = apiKey ?? "<not specific>"
+                    ApiKey = apiKey ?? "<not specific>",
+                    IsActive = isActive
                 };
 
                 return View(GetViewLocation("Index"), newModel);
             }
 
+            bool.TryParse(WebConfigurationManager.AppSettings.Get(isActiveKey), out var isActiveCfg);
             var model = new OrderIntegrationViewModel
             {
                 Url = WebConfigurationManager.AppSettings.Get(urlKey) ?? "<not specific>",
                 Resource = WebConfigurationManager.AppSettings.Get(resourceKey) ?? "<not specific>",
-                ApiKey = WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>"
+                ApiKey = WebConfigurationManager.AppSettings.Get(apiKeyKey) ?? "<not specific>",
+                IsActive = isActiveCfg
             };
 
             return View(GetViewLocation("Index"), model);

@@ -30,9 +30,20 @@
             <div class="epi-contentArea epi-formArea">
                 <table class="table table-bordered">
                     <tr><th>Feature</th><th>Value</th></tr>
-                    <tr><td>URL</td><td><input name="Url" id="url" value="@Model.Url"/></td></tr>
-                    <tr><td>Resource</td><td><input name="Resource" id="resourcer" value="@Model.Resource" /></td></tr>
-                    <tr><td>API Key</td><td><input name="ApiKey" id="apikey" value="@Model.ApiKey" /></td></tr>
+                    <tr><td>URL</td><td><input name="Url" id="url" value="@Model.Url" class="episize300"/></td></tr>
+                    <tr><td>Resource</td><td><input name="Resource" id="resourcer" value="@Model.Resource" class="episize300"/></td></tr>
+                    <tr><td>API Key</td><td><input name="ApiKey" id="apikey" value="@Model.ApiKey" class="episize300"/></td></tr>
+                    <tr><td>Active</td><td>
+                        @{
+                            if(Model.IsActive == true){
+                            <input type="checkbox" name="IsActive" value="true" checked/>
+                            }
+                            else{
+                                <input type="checkbox" name="IsActive" value="true"/>
+                            }
+                        }
+                        <input type="hidden" name="IsActive" value="false"/>
+                    </td></tr>
                 </table>
                 Changing app settings will require the website to restart.
                 <div class="epi-buttonDefault">

@@ -2,7 +2,6 @@
 using System.Linq;
 using Dc.EpiServerOrderPlugin.Extensions;
 using EPiServer.Commerce.Order;
-using EPiServer.Commerce.Order.Internal;
 using EPiServer.Logging;
 using RestSharp;
 
@@ -18,6 +17,13 @@ namespace Dc.EpiServerOrderPlugin.Handlers
         /// <param name="order"></param>
         public void PostEvent(IPurchaseOrder order)
         {
+            // check setting enable/disable
+            bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.IsActive"), out var isActive);
+            if (!isActive)
+            {
+                return;
+            }
+
             Logger.Information($"Order has been placed: {order.OrderNumber}");
 
             //basic info
@@ -104,7 +110,7 @@ namespace Dc.EpiServerOrderPlugin.Handlers
             string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
             string apiKey = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.ApiKey");
 
-            
+
             if (string.IsNullOrEmpty(url)) return;
 
             RestClient restClient = new RestClient(url);
