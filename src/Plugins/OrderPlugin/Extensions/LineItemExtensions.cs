@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using EPiServer;
 using EPiServer.Commerce.Catalog;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
@@ -38,5 +42,50 @@ namespace Dc.EpiServerOrderPlugin.Extensions
                 string.Empty : 
                 _thumbnailUrlResolver.Service.GetThumbnailUrl(entryContentLink, "thumbnail");
         }
+
+        #region Extra Variant Info
+        public static Tuple<string, string, string[]> GetExtraInfo(this ILineItem lineItem)
+        {
+            return GetExtraInfo(lineItem.Code);
+        }
+
+        private static Tuple<string, string, string[]> GetExtraInfo(string code)
+        {
+            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            var contentLink = _referenceConverter.Service.GetContentLink(code);
+
+            //get product - variant details
+            var variantDetails = contentLoader.Get<EntryContentBase>(contentLink);
+
+            string size, color;
+            variantDetails.Property.TryGetPropertyValue("Color", out color);
+            variantDetails.Property.TryGetPropertyValue("Size", out size);
+
+            var categoryLinks = variantDetails.GetCategoryLinks(contentLoader);
+
+            return new Tuple<string, string, string[]>(size, color, categoryLinks.ToArray());
+        }
+
+        public static IList<string> GetCategoryLinks(this EntryContentBase product, IContentLoader contentLoader)
+        {
+            var data = product.GetCategories()
+                .SelectMany(parentLink => contentLoader.GetAncestors(parentLink)
+                    .OfType<NodeContent>()
+                    .Select(node => node.ContentLink)
+                    .Concat(new[] { parentLink })
+                ).Distinct();
+
+
+            var categories = new List<string>();
+            foreach (var contentLink in data)
+            {
+                var node = contentLoader.Get<NodeContent>(contentLink);
+                categories.Add(node.DisplayName);
+            }
+
+            return categories;
+        }
+
+        #endregion
     }
 }

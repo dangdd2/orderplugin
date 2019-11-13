@@ -85,26 +85,45 @@ namespace Dc.EpiServerOrderPlugin.Handlers
 
             //lineItems
             var allListItems = order.GetAllLineItems();
-            var lineItems = allListItems.Select(lineItem => new
+
+            var lineItems = allListItems.Select(lineItem =>
             {
-                sku_number = lineItem.Code,
-                original_price = lineItem.PlacedPrice,
-                selling_price = lineItem.GetExtendedPrice(currency).ToString(),
-                product_id = lineItem.LineItemId,
-                product_name = lineItem.DisplayName,
-                model = "",
-                color = "",
-                size = "",
-                quantity = lineItem.Quantity,
-                category_1 = "",
-                category_2 = "",
-                category_3 = "",
-                content_url = lineItem.GetFullUrl(),
-                description = "",
-                extra = "",
-                barcode_number = "",
-                product_page_url = "",
+                var extraInfo = lineItem.GetExtraInfo();
+
+                var catList = extraInfo.Item3;
+                string category1 = string.Empty,
+                    category2 = string.Empty,
+                    category3 = string.Empty;
+                if (catList.Length > 0) category1 = catList[0];
+                if (catList.Length > 1) category2 = catList[1];
+                if (catList.Length > 2) category3 = catList[2];
+                string size = extraInfo.Item1;
+                string color = extraInfo.Item2;
+
+                return new
+                {
+                    sku_number = lineItem.Code,
+                    original_price = lineItem.PlacedPrice,
+                    selling_price = lineItem.GetExtendedPrice(currency).ToString(),
+                    product_id = lineItem.LineItemId,
+                    product_name = lineItem.DisplayName,
+                    model = "",
+                    color = color,
+                    size = size,
+                    quantity = lineItem.Quantity,
+                    category_1 = category1,
+                    category_2 = category2,
+                    category_3 = category3,
+                    content_url = lineItem.GetFullUrl(),
+                    description = "",
+                    extra = "",
+                    barcode_number = "",
+                    product_page_url = "",
+                };
             }).ToList();
+
+            //string url = "http://localhost:61409/api";
+            //string resource = "/values";
 
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Url");
             string resource = System.Web.Configuration.WebConfigurationManager.AppSettings.Get("EPi.OrderIntegration.Resource");
