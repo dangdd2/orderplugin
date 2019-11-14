@@ -99,6 +99,9 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                 if (catList.Length > 2) category3 = catList[2];
                 string size = extraInfo.Item1;
                 string color = extraInfo.Item2;
+                string brand = extraInfo.Item4;
+                string description = extraInfo.Item5;
+                var fullUrl = lineItem.GetFullUrl();
 
                 return new
                 {
@@ -107,18 +110,18 @@ namespace Dc.EpiServerOrderPlugin.Handlers
                     selling_price = lineItem.GetExtendedPrice(currency).ToString(),
                     product_id = lineItem.LineItemId,
                     product_name = lineItem.DisplayName,
-                    model = "",
+                    model = brand,
                     color = color,
                     size = size,
                     quantity = lineItem.Quantity,
                     category_1 = category1,
                     category_2 = category2,
                     category_3 = category3,
-                    content_url = lineItem.GetFullUrl(),
-                    description = "",
+                    content_url = fullUrl,
+                    description = description,
                     extra = "",
                     barcode_number = "",
-                    product_page_url = "",
+                    product_page_url = fullUrl,
                 };
             }).ToList();
 

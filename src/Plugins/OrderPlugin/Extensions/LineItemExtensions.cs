@@ -5,9 +5,11 @@ using System.Web;
 using EPiServer;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 
 namespace Dc.EpiServerOrderPlugin.Extensions
@@ -44,26 +46,47 @@ namespace Dc.EpiServerOrderPlugin.Extensions
         }
 
         #region Extra Variant Info
-        public static Tuple<string, string, string[]> GetExtraInfo(this ILineItem lineItem)
+        public static Tuple<string, string, string[], string, string> GetExtraInfo(this ILineItem lineItem)
         {
             return GetExtraInfo(lineItem.Code);
         }
 
-        private static Tuple<string, string, string[]> GetExtraInfo(string code)
+        private static Tuple<string, string, string[], string, string> GetExtraInfo(string code)
         {
+            string size, color, model, brand;
+            XhtmlString description;
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+
             var contentLink = _referenceConverter.Service.GetContentLink(code);
 
             //get product - variant details
             var variantDetails = contentLoader.Get<EntryContentBase>(contentLink);
+            var product = GetParentProduct(variantDetails, contentLoader);
 
-            string size, color;
+            product.Property.TryGetPropertyValue("Brand", out brand);
+            product.Property.TryGetPropertyValue("Description", out description);
+            var desValue = description.ToString();
+
             variantDetails.Property.TryGetPropertyValue("Color", out color);
             variantDetails.Property.TryGetPropertyValue("Size", out size);
+            variantDetails.Property.TryGetPropertyValue("Model", out model);
 
             var categoryLinks = variantDetails.GetCategoryLinks(contentLoader);
 
-            return new Tuple<string, string, string[]>(size, color, categoryLinks.ToArray());
+            return new Tuple<string, string, string[], string, string>(size, color, categoryLinks.ToArray(), brand, desValue);
+        }
+
+        public static ProductContent GetParentProduct(EntryContentBase entry, IContentLoader _contentLoader)
+        {
+            var _relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
+            return Get(entry.GetParentProducts(_relationRepository).SingleOrDefault(), _contentLoader);
+        }
+
+        public static ProductContent Get(ContentReference contentLink, IContentLoader _contentLoader)
+        {
+            var currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
+            var cm = currentMarket.GetCurrentMarket();
+            return _contentLoader.Get<ProductContent>(contentLink, cm.DefaultLanguage);
         }
 
         public static IList<string> GetCategoryLinks(this EntryContentBase product, IContentLoader contentLoader)

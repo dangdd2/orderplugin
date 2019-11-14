@@ -25,6 +25,7 @@ namespace WebAPI.Controllers
 
         public IHttpActionResult Post(dynamic order)
         {
+            var json = order.ToString();
             return Ok(order);
         }
 
@@ -39,3 +40,4 @@ namespace WebAPI.Controllers
         }
     }
 }
+ 
